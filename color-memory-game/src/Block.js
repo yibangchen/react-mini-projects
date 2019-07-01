@@ -1,15 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import './Block.css';
 
 const Block = (props) => {
-	static defaultProps = {
-		onClickBlock() {}
-	}
+	// static defaultProps = {
+	// 	onClickBlock() {}
+	// }
 
-	static propTypes = {
-		onClickBlock: PropTypes.func
-	}
+	// static propTypes = {
+	// 	onClickBlock: PropTypes.func
+	// }
 
 	return (
 		<div className="block" onClick={props.onClickBlock}></div>

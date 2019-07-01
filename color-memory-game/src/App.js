@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Block from './Block';
 
   const PAIR_NUM = 10;
   const allColors = ["AliceBlue","AntiqueWhite","Aqua","Aquamarine","Azure","Beige","Bisque","Black","BlanchedAlmond",
@@ -25,23 +26,40 @@ import './App.css';
               "Yellow","YellowGreen"];
 
 class App extends Component {
-    constructor(props) {
+  constructor(props) {
     super(props);
     this.state = {
       colors: [],
       guessed: []
     };
+    this.initGame(PAIR_NUM);
   }
 
-  initGame = () => { 
+  initGame = (size) => { 
     // pick # colors, fill random 2 blocks in colors; init guessed to empty false
+    const newColors = new Set();
+    while (newColors.size < size)
+      newColors.add(allColors[this.rand(allColors.length)]);
+    // const colors = this.shuffle(Array.from(newColors).concat(Array.from(newColors)));
+    const colors = this.shuffle(["yellow","red"]);
+    this.setState(colors);
+    this.setState({guessed: new Array(size * 2)});
+  }
+
+  rand = (maximum) => Math.floor(Math.random()*maximum);
+  shuffle = (a) => {
+    for (let i=a.length-1; i>0; i--){
+      const j = this.rand(i+1);
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
   }
 
 
   render() {
     return (
       <div className="App">
-  
+        { this.state.colors.map((c, i) => <Block />) }
       </div>
     );
   }

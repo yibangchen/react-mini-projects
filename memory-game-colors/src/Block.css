@@ -1,0 +1,13 @@
+.block {
+	width: 9%;
+	padding-top: 9%;
+	position: relative;
+	border-radius: 5%;
+	background-color: grey;
+	margin: 0.5%;
+}
+
+.block:hover {
+	cursor: pointer;
+	background-color: lightgrey;
+}

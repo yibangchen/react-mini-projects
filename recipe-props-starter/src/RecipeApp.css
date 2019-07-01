@@ -1,0 +1,8 @@
+.App {
+	font: roboto;
+}
+
+.recipes {
+	display: flex;
+	flex-flow: row wrap;
+}

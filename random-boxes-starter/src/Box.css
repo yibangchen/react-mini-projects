@@ -1,0 +1,11 @@
+.container {
+	display: flex;
+	flex-flow: row wrap;
+}
+
+.block {
+	width: 12.5%;
+	padding-top: 12.5%;
+	margin-bottom: 0.25%;
+	position: relative;
+}

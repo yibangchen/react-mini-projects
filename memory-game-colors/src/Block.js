@@ -16,20 +16,14 @@ class Block extends Component {
 		onClickBlock: PropTypes.func
 	}
 
-	handleClick = (e) => {
-		e.preventDefault();
-		this.props.onClickBlock(this.props.listIndex);
-	}
-
 	render() {
 		const style={}
-		if (!this.props.canShow)
-			style.backgroundColor = this.props.color;
+		if (this.props.showIndicator === 1){ style.backgroundColor = this.props.color; }
 
 		return (
 			<div 
 				className="block" 
-				onClick={ this.handleClick }
+				onClick={ this.props.onClickBlock }
 				style={ style }
 			></div>
 		);}

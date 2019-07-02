@@ -30,34 +30,52 @@ class App extends Component {
     super(props);
     this.state = {
       colors: this.initGame(PAIR_NUM),
-      guessed: Array(PAIR_NUM*2).fill('false'),
+      guessed: Array(PAIR_NUM*2).fill(0),
       isGameOver: false,
       matchColorIndex: -1
     };
   }
 
   handleClick = (k) => {
-    console.log([k, this.state.matchColorIndex]);
     const newGuessed = this.state.guessed.slice();
 
     if (this.state.matchColorIndex === -1) {
-      newGuessed[k] = true;        
+      newGuessed[k] = 1;        
       this.setState({
         guessed: newGuessed,
         matchColorIndex: k
-      }, ()=> { console.log(this.state.guessed[k]); });
-    } else if (this.state.matchColorIndex === k) {
-      newGuessed[k] = true;
+      });
+    } else if (this.state.colors[this.state.matchColorIndex] == this.state.colors[k]) {
+      newGuessed[k] = 1;
       this.setState({
         guessed: newGuessed,
         matchColorIndex: -1
+      }, () => {
+        if (this.state.guessed.every(val => val==1)) this.handleNewGame();
       });
     } else {
-      newGuessed[this.state.matchColorIndex] = false;
+      newGuessed[k] = 1;
       this.setState({
-        matchColorIndex: -1
+        guessed: newGuessed,
+      }, () => {
+        setTimeout(() => {
+          newGuessed[k] = 0;
+          newGuessed[this.state.matchColorIndex] = 0;
+          this.setState({
+            guessed: newGuessed,
+            matchColorIndex: -1
+          });
+        }, 2000);
       });
     }
+  }
+
+  handleNewGame = () => {
+    this.setState({
+      colors: this.initGame(PAIR_NUM),
+      guessed: Array(PAIR_NUM*2).fill(0),
+      matchColorIndex: -1
+    });
   }
 
   initGame(size) { 
@@ -82,13 +100,11 @@ class App extends Component {
       <div className="App">
         <div className = "container">
           { this.state.colors.map((c, i) => 
-
             <Block 
               key={i}
-              listIndex={i}
               color={c}
-              canShow={this.state.guessed[i]}
-              onClickBlock={this.handleClick}
+              showIndicator={this.state.guessed[i]}
+              onClickBlock={() => this.handleClick(i)}
             />
             ) }
         </div>

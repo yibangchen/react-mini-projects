@@ -29,21 +29,42 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      colors: [],
-      guessed: []
+      colors: this.initGame(PAIR_NUM),
+      guessed: Array(PAIR_NUM*2).fill('false'),
+      isGameOver: false,
+      matchColorIndex: -1
     };
+  }
 
-    this.setState({colors: allColors.slice(0, 10)});
-    // this.initGame(PAIR_NUM);
+  handleClick = (k) => {
+    console.log([k, this.state.matchColorIndex]);
+    const newGuessed = this.state.guessed.slice();
+
+    if (this.state.matchColorIndex === -1) {
+      newGuessed[k] = true;        
+      this.setState({
+        guessed: newGuessed,
+        matchColorIndex: k
+      }, ()=> { console.log(this.state.guessed[k]); });
+    } else if (this.state.matchColorIndex === k) {
+      newGuessed[k] = true;
+      this.setState({
+        guessed: newGuessed,
+        matchColorIndex: -1
+      });
+    } else {
+      newGuessed[this.state.matchColorIndex] = false;
+      this.setState({
+        matchColorIndex: -1
+      });
+    }
   }
 
   initGame(size) { 
     const newColors = new Set();
     while (newColors.size < size)
       newColors.add(allColors[this.rand(allColors.length)]);
-    // const colors = this.shuffle(Array.from(newColors).concat(Array.from(newColors)));
-    this.setState({colors: allColors.slice(0, 10)});
-    // this.setState({guessed: new Array(size * 2)});
+    return this.shuffle(Array.from(newColors).concat(Array.from(newColors)));
   }
 
   rand = (maximum) => Math.floor(Math.random()*maximum);
@@ -60,7 +81,16 @@ class App extends Component {
     return (
       <div className="App">
         <div className = "container">
-          { this.state.colors.map((c, i) => <Block key={i}/>) }
+          { this.state.colors.map((c, i) => 
+
+            <Block 
+              key={i}
+              listIndex={i}
+              color={c}
+              canShow={this.state.guessed[i]}
+              onClickBlock={this.handleClick}
+            />
+            ) }
         </div>
       </div>
     );

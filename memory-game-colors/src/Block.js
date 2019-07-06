@@ -18,7 +18,8 @@ class Block extends Component {
 
 	render() {
 		const style={}
-		if (this.props.showIndicator === 1){ style.backgroundColor = this.props.color; }
+		if (this.props.showIndicator !== 0)
+			{ style.backgroundColor = this.props.color; }
 
 		return (
 			<div 

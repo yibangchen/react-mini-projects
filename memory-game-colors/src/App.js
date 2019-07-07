@@ -19,6 +19,10 @@ class App extends Component {
     }
   }
 
+  updateGame = () => {
+    
+  }
+
   render() {
     return (
       <div className="App">

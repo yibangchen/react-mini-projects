@@ -23,7 +23,11 @@ const userSchema = new mongoose.Schema({
 	},
 	profileImageUrl: {
 		type: String
-	}
+	},
+	messages: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "Message"
+	}]
 });
 
 // pre hook. next() is to save i.e. next middleware
@@ -40,7 +44,7 @@ userSchema.pre("save", async function(next){
 	}
 });
 
-userSchema.method.comparePassword = async function(candidatePassword, next){
+userSchema.methods.comparePassword = async function(candidatePassword, next){
 	try {
 		let isMatch = await bcrypt.compare(candidatePassword, this.password);
 		return isMatch;

@@ -30,12 +30,21 @@ export default class AuthForm extends Component {
 
   render() {
     const { email, username, password, profileImageUrl } = this.state;
-    const { heading, buttonText, signUp } = this.props;
+    const { heading, buttonText, signUp, errors, history, removeError } = this.props;
+    
+    // listen to the change in the route
+    history.listen(() => { removeError(); });
+
     return (
       <div className= 'row justify-content-md-center text-center'>
         <div className='col-md-6'>
           <form onSubmit={this.handleSubmit}>
             <h2>{heading}</h2>
+            {errors.message && 
+              <div className="Alert alert-danger">
+                {errors.message}
+              </div>
+            }
             <label htmlFor='email'>Email:</label>
             <input className='form-control' id='email' name='email' type='text'
               onChange={this.handleChange} value={email}

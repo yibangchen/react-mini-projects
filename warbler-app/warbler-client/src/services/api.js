@@ -9,7 +9,6 @@ export function apiCall(method, path, data) {
         return resolve(res.data);
       })
       .catch(err => {
-        console.log(`API failure ${err.response.data.error}`);
         return reject(err.response.data.error);
       })
   })

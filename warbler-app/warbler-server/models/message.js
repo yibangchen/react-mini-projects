@@ -1,7 +1,3 @@
-/*jslint
-white
-*/
-
 const mongoose = require("mongoose");
 const User = require("./user");
 
@@ -20,10 +16,10 @@ const messageSchema = new mongoose.Schema({
 messageSchema.pre('remove', async function(next){
 	try{
 		let user = await User.findById(this.userId);
-		user.message.remove(this.id);
+		user.messages.remove(this.id);
 		await user.save();
 		return next();
-	} catch(e){
+	} catch(err){
 		return next(err);
 	}
 	// find a user
